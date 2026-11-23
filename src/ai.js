@@ -14,9 +14,9 @@
 //                         on-device model if the device is offline.
 //                         Used for promo ideas & translations.
 //
-// Every response reports `response.inferenceSource` ("ON_DEVICE" or
-// "IN_CLOUD") so the UI can show the user — and the judges — exactly where
-// each request actually ran.
+// Every response reports `response.inferenceSource` (the SDK returns
+// lowercase "on_device" / "in_cloud"; see normalizeSource) so the UI can
+// show the user — and the judges — exactly where each request actually ran.
 //
 // Model instances are created lazily, on/after a user interaction, as the
 // Firebase AI Logic docs require for inference modes.
@@ -107,12 +107,21 @@ export async function prepareOnDeviceModel(onProgress) {
   });
 }
 
+/** The SDK reports lowercase values ("in_cloud" / "on_device"); normalize. */
+function normalizeSource(raw) {
+  if (!raw) return InferenceSource.UNKNOWN;
+  const up = String(raw).toUpperCase();
+  if (up.includes("DEVICE")) return InferenceSource.ON_DEVICE;
+  if (up.includes("CLOUD")) return InferenceSource.IN_CLOUD;
+  return InferenceSource.UNKNOWN;
+}
+
 async function generate(model, prompt) {
   const result = await model.generateContent(prompt);
   const response = result.response;
   return {
     text: response.text(),
-    inferenceSource: response.inferenceSource ?? InferenceSource.UNKNOWN,
+    inferenceSource: normalizeSource(response.inferenceSource),
   };
 }
 
