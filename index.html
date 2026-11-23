@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WarungAI — Offline-First AI Assistant for Indonesian Micro-Shops</title>
+    <meta
+      name="description"
+      content="WarungAI helps Indonesian warung and UMKM owners with private sales summaries, customer replies and promo ideas — powered by Firebase AI Logic hybrid inference (on-device Gemini Nano + cloud Gemini)."
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <h1>🏪 WarungAI</h1>
+        <p class="tagline">
+          Offline-first AI assistant for Indonesian micro-shops (UMKM) —
+          private by default, smart when it counts.
+        </p>
+        <p class="subtag">
+          Built with <strong>Firebase AI Logic</strong> hybrid inference:
+          Gemini Nano on-device in Chrome, Gemini in the cloud as fallback.
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <!-- ======================= Status panel ======================= -->
+      <section class="card status-card" aria-labelledby="status-title">
+        <h2 id="status-title">System status</h2>
+        <ul class="status-list">
+          <li>
+            <span class="status-label">Firebase project</span>
+            <span id="firebase-status" class="status-value">Checking…</span>
+          </li>
+          <li>
+            <span class="status-label">On-device model (Gemini Nano)</span>
+            <span id="device-status" class="status-value">Checking…</span>
+          </li>
+          <li>
+            <span class="status-label">Cloud model</span>
+            <span class="status-value">gemini-3.5-flash-lite via Firebase AI Logic</span>
+          </li>
+        </ul>
+        <button id="prepare-device-btn" type="button">
+          Prepare on-device model
+        </button>
+        <p id="prepare-progress" class="hint" hidden></p>
+        <p class="hint">
+          On-device inference needs Chrome desktop 139+ with the Prompt API.
+          If it is not available here, hybrid features automatically use the
+          cloud — and the private feature below refuses to run at all.
+        </p>
+      </section>
+
+      <!-- ================= Feature 1: Private notes ================= -->
+      <section class="card" aria-labelledby="f1-title">
+        <div class="card-head">
+          <h2 id="f1-title">1 · Private Sales Notes</h2>
+          <span class="mode-chip chip-device">On-device only</span>
+        </div>
+        <p>
+          Paste today's messy sales notes and get a clean, structured summary.
+          Your takings are the most sensitive data your shop has, so this
+          feature runs <strong>100% on your device</strong> — it never sends
+          your numbers to the cloud, and it will refuse to run if the
+          on-device model is unavailable.
+        </p>
+        <label for="sales-input">Today's sales notes</label>
+        <textarea id="sales-input" rows="6">kopi sachet 20 laku 15 @2500
+beras 5kg 3 karung @68000
+minyak 1L 8 @21000, sisa 4
+telur 2 papan laku @58000
+gula pasir 10kg laku 7 @17500
+ada yg utang: Bu RT kopi 5 sachet</textarea>
+        <button id="sales-btn" type="button">Summarize privately</button>
+        <div id="sales-result" class="result" hidden></div>
+      </section>
+
+      <!-- ================ Feature 2: Customer content ================ -->
+      <section class="card" aria-labelledby="f2-title">
+        <div class="card-head">
+          <h2 id="f2-title">2 · Customer Reply &amp; Product Copy</h2>
+          <span class="mode-chip chip-hybrid">Hybrid · prefers on-device</span>
+        </div>
+        <p>
+          Draft a warm WhatsApp reply and a ready-to-use product description.
+          This feature tries the fast, free on-device model first and falls
+          back to the cloud automatically — the badge on the result shows
+          which one actually answered.
+        </p>
+        <label for="reply-product">Product</label>
+        <input id="reply-product" type="text" value="Kopi tubruk robusta Lampung 200g" />
+        <label for="reply-message">Customer message / situation</label>
+        <textarea id="reply-message" rows="3">Kak, kopinya masih ada? Bisa kirim hari ini? Harganya berapa?</textarea>
+        <label for="reply-details">Extra details (price, stock, delivery…)</label>
+        <input id="reply-details" type="text" value="Rp28.000, stok 12, bisa kirim sore ini via ojek lokal" />
+        <button id="reply-btn" type="button">Draft reply &amp; description</button>
+        <div id="reply-result" class="result" hidden></div>
+      </section>
+
+      <!-- ================== Feature 3: Promo ideas ================== -->
+      <section class="card" aria-labelledby="f3-title">
+        <div class="card-head">
+          <h2 id="f3-title">3 · Promo Ideas &amp; Translation</h2>
+          <span class="mode-chip chip-cloud">Cloud-first</span>
+        </div>
+        <p>
+          Creative work deserves the bigger model. Promo ideas, bilingual
+          captions (Indonesian ↔ English) and a WhatsApp broadcast draft —
+          generated cloud-first, with the on-device model as an offline
+          safety net.
+        </p>
+        <label for="promo-product">Product / shop</label>
+        <input id="promo-product" type="text" value="Warung kopi &amp; sarapan Bu Tini — kopi tubruk, nasi uduk, gorengan" />
+        <label for="promo-audience">Target customers</label>
+        <input id="promo-audience" type="text" value="Warga sekitar, anak kos, dan ojek online yang mangkal dekat warung" />
+        <label for="promo-occasion">Occasion</label>
+        <input id="promo-occasion" type="text" value="Jumat berkah + awal bulan (habis gajian)" />
+        <button id="promo-btn" type="button">Generate promo ideas</button>
+        <div id="promo-result" class="result" hidden></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          WarungAI · Built for #BuildHybridAI 2026 with Firebase AI Logic
+          hybrid inference · Apache-2.0
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
