@@ -21,8 +21,8 @@ Firebase AI Logic.
 
 ## Links
 
-- **GitHub repository:** `[TO FILL — public repo URL]`
-- **Live demo / working project URL:** `[TO FILL — hosted URL]`
+- **GitHub repository:** https://github.com/Rian0net/warungai
+- **Live demo / working project URL:** https://rian0net.github.io/warungai/
 - **Demo video (YouTube, ≤ 3 min):** `[TO FILL — video URL]`
 
 ---
